@@ -50,7 +50,6 @@ class ViewController: UIViewController {
     }
     
     // MARK: Private methods
-    
     private func sliderSetup(for slider: UISlider, color sliderColor: UIColor) {
         slider.minimumValue = 0
         slider.maximumValue = 100
