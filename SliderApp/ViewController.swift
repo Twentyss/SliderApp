@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: IB Outlets
     @IBOutlet weak var colorView: UIView!
     
     @IBOutlet weak var redValueLabel: UILabel!
@@ -19,47 +20,59 @@ class ViewController: UIViewController {
     @IBOutlet weak var greenSlider: UISlider!
     @IBOutlet weak var blueSlider: UISlider!
     
+    // MARK: Override method
     override func viewDidLoad() {
         super.viewDidLoad()
         colorView.layer.cornerRadius = colorView.frame.height / 8
-        slidersSetup()
-        changeViewColor(redSlider.value, greenSlider.value, blueSlider.value)
+        
+        sliderSetup(for: redSlider, color: .red)
+        sliderSetup(for: greenSlider, color: .green)
+        sliderSetup(for: blueSlider, color: .blue)
+        
+        changeViewColor()
+        changeLabelsText()
     }
     
+    // MARK: IB Actions
     @IBAction func redSliderValueChanged() {
-        changeViewColor(redSlider.value, greenSlider.value, blueSlider.value)
+        changeViewColor()
+        changeLabelsText()
     }
     
     @IBAction func blueSliderValueChanged() {
-        changeViewColor(redSlider.value, greenSlider.value, blueSlider.value)
+        changeViewColor()
+        changeLabelsText()
     }
     
     @IBAction func greenSliderValueChanged() {
-        changeViewColor(redSlider.value, greenSlider.value, blueSlider.value)
+        changeViewColor()
+        changeLabelsText()
     }
     
-    func slidersSetup() {
-        redSlider.value = 0
-        redSlider.minimumValue = 0
-        redSlider.maximumValue = 100
-        
-        greenSlider.value = 0
-        greenSlider.minimumValue = 0
-        greenSlider.maximumValue = 100
-        
-        blueSlider.value = 0
-        blueSlider.minimumValue = 0
-        blueSlider.maximumValue = 100
+    // MARK: Private methods
+    
+    private func sliderSetup(for slider: UISlider, color sliderColor: UIColor) {
+        slider.minimumValue = 0
+        slider.maximumValue = 100
+        slider.minimumTrackTintColor = sliderColor
+        slider.value = round(Float.random(in: 75...100))
     }
     
-    func changeViewColor(_ redSliderValue: Float, _ greenSliderValue: Float, _ blueSliderValue: Float) {
-
-        redValueLabel.text = String(floor(redSliderValue))
-        greenValueLabel.text = String(floor(greenSliderValue))
-        blueValueLabel.text = String(floor(blueSliderValue))
+    private func changeViewColor() {
+        let redSliderValue: CGFloat = CGFloat(redSlider.value / 100)
+        let greenSliderValue: CGFloat = CGFloat(greenSlider.value / 100)
+        let blueSliderValue: CGFloat = CGFloat(blueSlider.value / 100)
         
-        colorView.backgroundColor = UIColor(red: CGFloat(redSliderValue / 100), green: CGFloat(greenSliderValue / 100), blue: CGFloat(blueSliderValue / 100), alpha: 1)
+        colorView.backgroundColor = UIColor(red: redSliderValue,
+                                            green: greenSliderValue,
+                                            blue: blueSliderValue,
+                                            alpha: 1)
     }
     
+    private func changeLabelsText() {
+        redValueLabel.text = String(format: "%.2f", redSlider.value)
+        greenValueLabel.text = String(format: "%.2f", greenSlider.value)
+        blueValueLabel.text = String(format: "%.2f", blueSlider.value)
+    }
 }
 
